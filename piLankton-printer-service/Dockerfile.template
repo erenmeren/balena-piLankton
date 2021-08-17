@@ -1,0 +1,16 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-python
+
+WORKDIR /root
+COPY . ./
+
+RUN apt-get update \
+  && apt-get install -y gcc \
+  && apt-get install -y g++ \
+  && pip install --upgrade pip \
+  && pip install -r requirements.txt
+
+
+EXPOSE 9101
+EXPOSE 9100
+
+CMD ["python","-u", "/root/printer.py"]

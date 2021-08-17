@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+
+  piLankton-discovery:
+    network_mode: 'host'
+    build: ./piLankton-discovery-service
+    ports: 
+      - 22222:22222
+    privileged: true
+    restart: always
+
+  piLankton-printer:
+    network_mode: 'host'
+    build: ./piLankton-printer-service
+    ports: 
+      - 9100:9100
+      - 9101:9101
+    privileged: true
+    restart: always
+    labels:
+      io.balena.features.balena-api: '1'
+      io.balena.features.supervisor-api: '1'
+      io.balena.features.dbos: '1'
+
+  wifi-connect:
+    build: ./wifi-connect
+    privileged: true
+    restart: always
+    labels:
+      io.balena.features.dbos: '1'
+    cap_add:
+      - NET_ADMIN
+    environment:
+      DBUS_SYSTEM_BUS_ADDRESS: 'unix:path=/host/run/dbus/system_bus_socket'

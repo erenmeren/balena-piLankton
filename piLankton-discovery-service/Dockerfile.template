@@ -1,0 +1,10 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-python
+# FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine-python
+
+WORKDIR "/usr/app"
+
+COPY . ./
+
+EXPOSE 22222
+
+CMD ["python", "-u", "/usr/app/discovery.py"]
